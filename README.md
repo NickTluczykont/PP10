@@ -56,8 +56,9 @@ In this exercise you will:
 #### Reflection Questions
 
 1. **What does `typedef struct { ... } Point;` achieve compared to `struct Point { ... };`?**
+   typedef struct { ... } Point; ist eine bequeme Abkürzung, die dir erlaubt, Point als eigenen Typnamen zu benutzen, ohne ständig struct davor schreiben zu müssen.
 2. **How does the compiler lay out a `Point` in memory?**
-
+   Zweidemensional mit zweimal 8 Byte also insgesamt 16 Byte. Die ersten 8 Byte ergeben die X-Koordinate und die zweiten die Y-Koordinate 
 ---
 
 ### Task 1: Linking the Math Library (`-lm`)
@@ -73,9 +74,13 @@ In this exercise you will:
 
 #### Reflection Questions
 
-1. **Why is the `-lm` flag necessary to resolve `sqrt`?**
-2. **What happens if you omit `-lm` when calling math functions?**
+![Screenshot 2025-06-15 172659](https://github.com/user-attachments/assets/3650be84-e528-4ee5-b0f8-01bc2b58b056)
 
+1. **Why is the `-lm` flag necessary to resolve `sqrt`?**
+   -lm ist notwendig, um mathematische Funktionen wie sqrt() erfolgreich zu verlinken.
+   
+2. **What happens if you omit `-lm` when calling math functions?**
+   Ohne -lm führt es zu einem Linkerfehler, nicht zu einem Compilerfehler.
 ---
 
 ### Task 2: Header-Only Library
@@ -105,7 +110,9 @@ In this exercise you will:
 #### Reflection Questions
 
 1. **What are the advantages and drawbacks of a header-only library?**
+   Einfacher zu integrieren da es einzelne Datein sind jedoch gibts keinen Schutz vor Implementierungsänderungen und längere Kompilierzeiten
 2. **How does `static inline` affect linkage and code size?**
+   Verhindert Mehrfachdefinition beim Linken und minimiert Funktionsaufrufe.
 
 ---
 
@@ -129,9 +136,10 @@ In this exercise you will:
 #### Reflection Questions
 
 1. **Why must you include `solutions/util.o` when linking instead of just the header?**
+   .h ist die Dekaration fürs kompelieren 
 2. **What symbol resolution occurs at compile vs. link time?**
+   .o ist zum korekten linken benötigt und wandelt die Datei in Maschienensprache um.
 
----
 
 ### Task 4: Packaging into `.a` and System Installation
 
@@ -160,9 +168,9 @@ In this exercise you will:
 #### Reflection Questions
 
 1. **How does `ar` create an archive, and how does the linker find `-lutil`?**
+   ar nimmt Objektdateien .o und packt sie in ein Archiv, das eine Bibliothek darstellt.
 2. **What is the purpose of `ldconfig`?**
-
----
+   Der Linker ld sucht bei lutil nach einer Dateinamen
 
 ### Task 5: Installing and Using `jansson`
 
@@ -197,7 +205,18 @@ In this exercise you will:
 #### Reflection Questions
 
 1. **What files does `libjansson-dev` install, and where?**
+   /usr/include/jansson.h
 2. **How does the linker know where to find `-ljansson`?**
+   Der Linker sucht in:
+
+/usr/lib
+
+/usr/lib/x86_64-linux-gnu (auf 64-bit Debian/Ubuntu)
+
+/lib 
+
+usw. also alle teil Pfade
+   
 
 ---
 
